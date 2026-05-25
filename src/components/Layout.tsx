@@ -1,6 +1,6 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Instagram, Linkedin, Facebook, Mail } from "lucide-react";
+import { Menu, X, Instagram, Linkedin, Facebook, Youtube, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/Logo";
 
@@ -140,6 +140,7 @@ export function Layout() {
                 { Icon: Instagram, href: "https://www.instagram.com/pallabi_talks", label: "Instagram" },
                 { Icon: Linkedin, href: "https://www.linkedin.com/in/pallabi-das786/", label: "LinkedIn" },
                 { Icon: Facebook, href: "https://www.facebook.com/share/1DGav6dh6L/", label: "Facebook" },
+                { Icon: Youtube, href: "https://youtube.com/@pallabi-talks?si=amUbtoAhydiBsqA8", label: "YouTube" },
                 { Icon: Mail, href: "mailto:yourpallabbi@gmail.com", label: "Email" },
               ].map(({ Icon, href, label }, i) => (
                 <a

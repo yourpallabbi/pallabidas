@@ -15,6 +15,7 @@ import {
   Instagram,
   Linkedin,
   Facebook,
+  Youtube,
 } from "lucide-react";
 import workBranding from "@/assets/work-branding.jpg";
 import workCampaign from "@/assets/work-campaign.jpg";
@@ -140,6 +141,7 @@ function HomePage() {
                 { Icon: Instagram, href: "https://www.instagram.com/pallabi_talks", label: "Instagram" },
                 { Icon: Linkedin, href: "https://www.linkedin.com/in/pallabi-das786/", label: "LinkedIn" },
                 { Icon: Facebook, href: "https://www.facebook.com/share/1DGav6dh6L/", label: "Facebook" },
+                { Icon: Youtube, href: "https://youtube.com/@pallabi-talks?si=amUbtoAhydiBsqA8", label: "YouTube" },
               ].map(({ Icon, href, label }) => (
                 <a
                   key={label}
