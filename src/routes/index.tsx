@@ -167,7 +167,7 @@ function HomePage() {
 
           <div className="md:col-span-1 lg:col-span-5 relative">
             <div className="absolute -inset-10 bg-[image:var(--gradient-radial)] blur-2xl pointer-events-none" />
-            <div className="relative gradient-border p-1.5 animate-float">
+            <div className="relative gradient-border p-1.5 animate-float max-w-xs mx-auto sm:max-w-sm md:max-w-none">
               <div className="overflow-hidden rounded-[calc(var(--radius-xl)-2px)] relative noise">
                 <img
                   src="/hero_section.png"
@@ -176,7 +176,7 @@ function HomePage() {
                   height={1280}
                   fetchPriority="high"
                   decoding="async"
-                  className="w-full h-auto object-cover object-top"
+                  className="w-full object-cover object-top max-h-[52vh] md:max-h-none"
                 />
               </div>
             </div>

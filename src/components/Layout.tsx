@@ -91,7 +91,14 @@ export function Layout() {
           </nav>
 
           {open && (
-            <div className="lg:hidden mt-3 glass rounded-3xl p-4 animate-fade-in">
+            <div
+              className="lg:hidden mt-3 rounded-3xl p-4 animate-fade-in border border-white/10 shadow-2xl"
+              style={{
+                background: "oklch(0.15 0.025 280 / 0.97)",
+                backdropFilter: "blur(24px) saturate(150%)",
+                WebkitBackdropFilter: "blur(24px) saturate(150%)",
+              }}
+            >
               <ul className="flex flex-col gap-1">
                 {NAV.map((n) => (
                   <li key={n.to}>
@@ -101,7 +108,7 @@ export function Layout() {
                         "block rounded-2xl px-4 py-3 text-sm font-medium transition-colors",
                         location.pathname === n.to
                           ? "bg-[image:var(--gradient-primary)] text-primary-foreground"
-                          : "hover:bg-white/5",
+                          : "text-foreground hover:bg-white/8",
                       )}
                     >
                       {n.label}
