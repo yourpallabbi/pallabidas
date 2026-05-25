@@ -68,10 +68,10 @@ function AboutPage() {
             <div className="absolute -inset-8 bg-[image:var(--gradient-radial)] blur-2xl" />
             <div className="relative gradient-border p-1.5">
               <img
-                src="/hero.png"
+                src="/herofinal.png"
                 alt="Pallabi Das"
                 loading="lazy"
-                className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover object-top"
+                className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover object-center"
               />
             </div>
           </div>
