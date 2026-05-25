@@ -9,8 +9,13 @@ import {
   Star,
   Quote,
   ArrowRight,
+  BookOpen,
+  FileText,
+  ExternalLink,
+  Instagram,
+  Linkedin,
+  Facebook,
 } from "lucide-react";
-import heroPortrait from "@/assets/hero-portrait.jpg";
 import workBranding from "@/assets/work-branding.jpg";
 import workCampaign from "@/assets/work-campaign.jpg";
 import workSeo from "@/assets/work-seo.jpg";
@@ -130,6 +135,26 @@ function HomePage() {
               <GradientButton to="/portfolio" variant="ghost">Explore my work</GradientButton>
             </div>
 
+            <div className="flex items-center gap-3 pt-1">
+              {[
+                { Icon: Instagram, href: "https://www.instagram.com/pallabi_talks", label: "Instagram" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/in/pallabi-das786/", label: "LinkedIn" },
+                { Icon: Facebook, href: "https://www.facebook.com/share/1DGav6dh6L/", label: "Facebook" },
+              ].map(({ Icon, href, label }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={label}
+                  className="grid h-10 w-10 place-items-center rounded-full glass border border-white/10 text-muted-foreground hover:text-primary hover:border-primary/40 transition-all"
+                >
+                  <Icon className="h-4 w-4" />
+                </a>
+              ))}
+              <span className="text-xs text-muted-foreground">Follow along</span>
+            </div>
+
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8">
               {stats.map((s) => (
                 <div key={s.l} className="glass rounded-2xl p-4">
@@ -145,21 +170,12 @@ function HomePage() {
             <div className="relative gradient-border p-1.5 animate-float">
               <div className="overflow-hidden rounded-[calc(var(--radius-xl)-2px)] relative noise">
                 <img
-                  src={heroPortrait}
+                  src="/hero_section.png"
                   alt="Portrait of Pallabi Das"
                   width={1024}
                   height={1280}
-                  className="w-full h-auto object-cover"
+                  className="w-full h-auto object-cover object-top"
                 />
-              </div>
-            </div>
-            <div className="absolute -bottom-6 -left-6 glass-card p-4 hidden sm:flex items-center gap-3 max-w-[220px]">
-              <div className="grid h-10 w-10 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground">
-                <Sparkles className="h-5 w-5" />
-              </div>
-              <div className="text-xs">
-                <div className="font-semibold">Available for Q1</div>
-                <div className="text-muted-foreground">2 client slots open</div>
               </div>
             </div>
           </div>
@@ -323,6 +339,143 @@ function HomePage() {
             </ul>
             <div className="mt-8">
               <GradientButton to="/podcast">Listen to all episodes</GradientButton>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* BOOKS */}
+      <Section>
+        <SectionHeading
+          align="center"
+          eyebrow="Books by Pallabi"
+          title={<>Words that <span className="gradient-text">move you forward</span>.</>}
+          subtitle="Practical reads for creators, designers and anyone building something meaningful."
+        />
+        <div className="grid sm:grid-cols-2 gap-8 lg:gap-12 mt-16 max-w-4xl mx-auto">
+          {[
+            {
+              cover: "/book-start-designing.avif",
+              title: "Start Designing",
+              desc: "A beginner-friendly guide to visual thinking and design fundamentals for modern creators.",
+              url: "https://amzn.in/d/0b4NVeCp",
+              tag: "Design",
+              accent: "oklch(0.65 0.27 295)",
+            },
+            {
+              cover: "/book-hope-dont-let-go.avif",
+              title: "Hope — Don't Let Go",
+              desc: "An honest and heartfelt book on resilience, ambition, and holding on when it feels impossible.",
+              url: "https://amzn.in/d/06Rc1uB5",
+              tag: "Mindset",
+              accent: "oklch(0.72 0.2 240)",
+            },
+          ].map((book) => (
+            <a
+              key={book.title}
+              href={book.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative flex flex-col items-center text-center"
+            >
+              {/* Ambient glow behind the card */}
+              <div
+                className="absolute top-8 left-1/2 -translate-x-1/2 w-56 h-72 rounded-full blur-3xl opacity-25 transition-opacity duration-500 group-hover:opacity-50 pointer-events-none"
+                style={{ background: book.accent }}
+              />
+
+              {/* Book cover */}
+              <div className="relative w-64 sm:w-72">
+                {/* Bottom page-stack effect */}
+                <div className="absolute bottom-0 left-2 right-2 h-full rounded-2xl border border-white/5 bg-white/5 translate-y-1 translate-x-2 scale-[0.97] transition-all duration-500 group-hover:translate-y-2 group-hover:translate-x-3" />
+                <div className="absolute bottom-0 left-2 right-2 h-full rounded-2xl border border-white/5 bg-white/5 translate-y-0.5 translate-x-1 scale-[0.985] transition-all duration-500 group-hover:translate-y-1 group-hover:translate-x-1.5" />
+
+                {/* Main cover */}
+                <div className="relative rounded-2xl overflow-hidden border border-white/15 shadow-[0_32px_64px_-16px_oklch(0_0_0/0.7)] transition-all duration-500 group-hover:-translate-y-3 group-hover:shadow-[0_48px_80px_-16px_oklch(0_0_0/0.8)]">
+                  <img
+                    src={book.cover}
+                    alt={book.title}
+                    loading="lazy"
+                    className="w-full aspect-[3/4] object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                  />
+                  {/* Left spine shine */}
+                  <div className="absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-white/20 to-transparent pointer-events-none" />
+                  {/* Top gloss */}
+                  <div className="absolute inset-x-0 top-0 h-1/3 bg-gradient-to-b from-white/10 to-transparent pointer-events-none" />
+                  {/* Hover overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                </div>
+
+                {/* Tag badge */}
+                <div className="absolute -top-4 -right-4 rounded-full bg-[image:var(--gradient-primary)] px-4 py-1.5 text-[11px] font-bold uppercase tracking-widest text-primary-foreground shadow-lg shadow-primary/30">
+                  {book.tag}
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="mt-10 space-y-3 px-2">
+                <div className="flex justify-center gap-0.5">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                  ))}
+                </div>
+                <h3 className="font-display text-2xl font-bold leading-tight">{book.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed max-w-[260px] mx-auto">{book.desc}</p>
+                <div className="pt-4">
+                  <span className="inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-6 py-2.5 text-sm font-semibold text-primary-foreground shadow-lg shadow-primary/25 transition-all duration-300 group-hover:shadow-primary/50 group-hover:gap-3">
+                    <BookOpen className="h-4 w-4" />
+                    Buy on Amazon
+                    <ArrowRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </div>
+            </a>
+          ))}
+        </div>
+      </Section>
+
+      {/* RESEARCH PAPER */}
+      <Section>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="relative rounded-3xl overflow-hidden gradient-border p-1 max-w-sm mx-auto lg:mx-0">
+            <img
+              src="/research-ai-graphic-design.jpg"
+              alt="Research paper cover — AI in Graphic Design"
+              loading="lazy"
+              className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover"
+            />
+          </div>
+          <div>
+            <SectionHeading
+              eyebrow="Research & Writing"
+              title={<>Published <span className="gradient-text">research paper</span>.</>}
+              subtitle="Exploring the frontier where artificial intelligence meets visual creativity."
+            />
+            <div className="mt-8 glass-card p-7 space-y-5">
+              <div className="flex items-start gap-4">
+                <div className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
+                  <FileText className="h-5 w-5" />
+                </div>
+                <div>
+                  <div className="text-xs uppercase tracking-widest text-primary font-semibold mb-2">
+                    Published · Brainware University
+                  </div>
+                  <h3 className="font-display text-xl font-bold leading-snug">
+                    Artificial Intelligence in Graphic Design: Revolution or Replacement?
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground leading-relaxed">
+                    A peer-reviewed study investigating how AI tools are reshaping the graphic design landscape — questioning whether they empower human creativity or risk making the designer obsolete.
+                  </p>
+                </div>
+              </div>
+              <a
+                href="https://www.brainwareuniversity.ac.in/brainwave-papers/index.php/bamj/article/view/55"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[image:var(--gradient-primary)] px-6 py-3 text-sm font-semibold text-primary-foreground hover:opacity-90 transition-opacity"
+              >
+                Read the paper <ExternalLink className="h-4 w-4" />
+              </a>
             </div>
           </div>
         </div>

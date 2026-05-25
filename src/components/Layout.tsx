@@ -1,7 +1,8 @@
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Menu, X, Instagram, Linkedin, Youtube, Mail } from "lucide-react";
+import { Menu, X, Instagram, Linkedin, Facebook, Mail } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Logo } from "@/components/Logo";
 
 const NAV = [
   { to: "/", label: "Home" },
@@ -45,11 +46,8 @@ export function Layout() {
               scrolled && "shadow-[0_10px_40px_-10px_oklch(0_0_0/0.6)]",
             )}
           >
-            <Link to="/" className="flex items-center gap-2 font-display font-bold text-lg">
-              <span className="grid h-8 w-8 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground glow-ring">
-                P
-              </span>
-              <span className="hidden sm:inline">Pallabi<span className="gradient-text">.</span></span>
+            <Link to="/" className="flex items-center">
+              <Logo className="h-10 w-auto" />
             </Link>
 
             <ul className="hidden lg:flex items-center gap-1">
@@ -123,8 +121,8 @@ export function Layout() {
       <footer className="mt-32 border-t border-border/50">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 grid gap-12 md:grid-cols-4">
           <div className="md:col-span-2">
-            <Link to="/" className="font-display text-2xl font-bold">
-              Pallabi<span className="gradient-text">.</span>
+            <Link to="/">
+              <Logo className="h-10 w-auto" />
             </Link>
             <p className="mt-4 max-w-md text-muted-foreground">
               I build brands that grow, sell &amp; scale digitally — blending strategy,
@@ -132,16 +130,17 @@ export function Layout() {
             </p>
             <div className="mt-6 flex gap-3">
               {[
-                { Icon: Instagram, href: "https://instagram.com" },
-                { Icon: Linkedin, href: "https://linkedin.com" },
-                { Icon: Youtube, href: "https://youtube.com" },
-                { Icon: Mail, href: "mailto:hello@pallabi.com" },
-              ].map(({ Icon, href }, i) => (
+                { Icon: Instagram, href: "https://www.instagram.com/pallabi_talks", label: "Instagram" },
+                { Icon: Linkedin, href: "https://www.linkedin.com/in/pallabi-das786/", label: "LinkedIn" },
+                { Icon: Facebook, href: "https://www.facebook.com/share/1DGav6dh6L/", label: "Facebook" },
+                { Icon: Mail, href: "mailto:yourpallabbi@gmail.com", label: "Email" },
+              ].map(({ Icon, href, label }, i) => (
                 <a
                   key={i}
                   href={href}
                   target="_blank"
                   rel="noreferrer"
+                  aria-label={label}
                   className="grid h-10 w-10 place-items-center rounded-full glass hover:text-primary transition-colors"
                 >
                   <Icon className="h-4 w-4" />
@@ -164,7 +163,8 @@ export function Layout() {
           <div>
             <h4 className="font-display font-semibold mb-4">Get in touch</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li>hello@pallabi.com</li>
+              <li><a href="mailto:yourpallabbi@gmail.com" className="hover:text-foreground transition-colors">yourpallabbi@gmail.com</a></li>
+              <li><a href="tel:+919804101114" className="hover:text-foreground transition-colors">+91 98041 01114</a></li>
               <li>Based in India · Working globally</li>
             </ul>
           </div>

@@ -74,7 +74,7 @@ function ContactPage() {
 
           <div className="lg:col-span-2 space-y-4">
             <a
-              href="https://wa.me/910000000000"
+              href="https://wa.me/919804101114"
               className="glass-card p-6 flex items-center gap-4 group"
             >
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
@@ -82,16 +82,25 @@ function ContactPage() {
               </div>
               <div>
                 <div className="text-xs uppercase tracking-widest text-primary">WhatsApp</div>
-                <div className="font-display font-semibold">Chat instantly</div>
+                <div className="font-display font-semibold">+91 98041 01114</div>
               </div>
             </a>
-            <a href="mailto:hello@pallabi.com" className="glass-card p-6 flex items-center gap-4">
+            <a href="mailto:yourpallabbi@gmail.com" className="glass-card p-6 flex items-center gap-4">
               <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
                 <Mail className="h-5 w-5" />
               </div>
               <div>
                 <div className="text-xs uppercase tracking-widest text-primary">Email</div>
-                <div className="font-display font-semibold">hello@pallabi.com</div>
+                <div className="font-display font-semibold">yourpallabbi@gmail.com</div>
+              </div>
+            </a>
+            <a href="tel:+919804101114" className="glass-card p-6 flex items-center gap-4">
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
+                <MessageCircle className="h-5 w-5" />
+              </div>
+              <div>
+                <div className="text-xs uppercase tracking-widest text-primary">Phone</div>
+                <div className="font-display font-semibold">+91 98041 01114</div>
               </div>
             </a>
             <div className="glass-card p-6 flex items-center gap-4">

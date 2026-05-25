@@ -1,7 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading, GradientButton, Eyebrow } from "@/components/ui-bits";
 import { Palette, Globe, Brain, Heart } from "lucide-react";
-import heroPortrait from "@/assets/hero-portrait.jpg";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -69,10 +68,10 @@ function AboutPage() {
             <div className="absolute -inset-8 bg-[image:var(--gradient-radial)] blur-2xl" />
             <div className="relative gradient-border p-1.5">
               <img
-                src={heroPortrait}
+                src="/hero.png"
                 alt="Pallabi Das"
                 loading="lazy"
-                className="w-full rounded-[calc(var(--radius-xl)-2px)]"
+                className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover object-top"
               />
             </div>
           </div>
