@@ -126,7 +126,7 @@ function HomePage() {
               <br /> grow, sell &amp; scale digitally.
             </h1>
             <p className="text-lg text-muted-foreground max-w-xl leading-relaxed">
-              Hi, I'm Pallabi Das — a marketer-creator hybrid blending strategy,
+              Hi, I'm Pallabi — a marketer-creator hybrid blending strategy,
               storytelling and design to help ambitious founders win the modern
               internet.
             </p>
