@@ -118,8 +118,8 @@ function HomePage() {
     <>
       {/* HERO */}
       <Section className="!pt-10 !pb-16 sm:!pt-16">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          <div className="lg:col-span-7 space-y-8 animate-fade-up">
+        <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+          <div className="md:col-span-1 lg:col-span-7 space-y-8 animate-fade-up">
             <Eyebrow>Digital marketer · creator · podcast host</Eyebrow>
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold leading-[1.02]">
               I build <span className="gradient-text">brands</span> that
@@ -165,7 +165,7 @@ function HomePage() {
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative">
+          <div className="md:col-span-1 lg:col-span-5 relative">
             <div className="absolute -inset-10 bg-[image:var(--gradient-radial)] blur-2xl pointer-events-none" />
             <div className="relative gradient-border p-1.5 animate-float">
               <div className="overflow-hidden rounded-[calc(var(--radius-xl)-2px)] relative noise">
@@ -174,6 +174,8 @@ function HomePage() {
                   alt="Portrait of Pallabi Das"
                   width={1024}
                   height={1280}
+                  fetchPriority="high"
+                  decoding="async"
                   className="w-full h-auto object-cover object-top"
                 />
               </div>
@@ -218,7 +220,7 @@ function HomePage() {
             title={<>Marketing brain. <span className="gradient-text">Creative soul.</span></>}
             subtitle="I started as a digital painter, fell in love with storytelling, and turned both into a career building brands that actually feel like something. Today I help founders, creators and small teams move faster, look sharper, and grow smarter."
           />
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
               { label: "Digital painter", num: "01" },
               { label: "SEO strategist", num: "02" },

@@ -70,7 +70,8 @@ function AboutPage() {
               <img
                 src="/herofinal.png"
                 alt="Pallabi Das"
-                loading="lazy"
+                fetchPriority="high"
+                decoding="async"
                 className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover object-center"
               />
             </div>
