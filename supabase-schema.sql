@@ -11,7 +11,7 @@ create table if not exists courses (
   duration text not null,
   seats text not null,
   price text not null,
-  desc text not null,
+  description text not null,
   bullets text[] not null default '{}',
   featured boolean not null default false,
   created_at timestamptz default now()
@@ -21,7 +21,7 @@ create table if not exists courses (
 create table if not exists books (
   id uuid primary key default gen_random_uuid(),
   title text not null,
-  desc text not null,
+  description text not null,
   cover_url text not null,
   amazon_url text not null,
   tag text not null,
@@ -33,7 +33,7 @@ create table if not exists books (
 create table if not exists portfolio (
   id uuid primary key default gen_random_uuid(),
   title text not null,
-  desc text not null,
+  description text not null,
   image_url text not null,
   cat text not null,
   tags text[] not null default '{}',
@@ -58,13 +58,35 @@ create table if not exists blogs (
 
 -- ================================================================
 -- Row Level Security (RLS)
--- Public can READ, only authenticated admin can WRITE
 -- ================================================================
 
 alter table courses enable row level security;
 alter table books enable row level security;
 alter table portfolio enable row level security;
 alter table blogs enable row level security;
+
+-- Drop existing policies first (safe to re-run)
+drop policy if exists "Public read courses" on courses;
+drop policy if exists "Public read books" on books;
+drop policy if exists "Public read portfolio" on portfolio;
+drop policy if exists "Public read published blogs" on blogs;
+drop policy if exists "Admin read all blogs" on blogs;
+
+drop policy if exists "Admin insert courses" on courses;
+drop policy if exists "Admin update courses" on courses;
+drop policy if exists "Admin delete courses" on courses;
+
+drop policy if exists "Admin insert books" on books;
+drop policy if exists "Admin update books" on books;
+drop policy if exists "Admin delete books" on books;
+
+drop policy if exists "Admin insert portfolio" on portfolio;
+drop policy if exists "Admin update portfolio" on portfolio;
+drop policy if exists "Admin delete portfolio" on portfolio;
+
+drop policy if exists "Admin insert blogs" on blogs;
+drop policy if exists "Admin update blogs" on blogs;
+drop policy if exists "Admin delete blogs" on blogs;
 
 -- Read policies (public)
 create policy "Public read courses" on courses for select using (true);

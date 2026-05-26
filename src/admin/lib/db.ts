@@ -9,7 +9,7 @@ export type Course = {
   duration: string;
   seats: string;
   price: string;
-  desc: string;
+  description: string;
   bullets: string[];
   featured: boolean;
   created_at?: string;
@@ -18,7 +18,7 @@ export type Course = {
 export type Book = {
   id: string;
   title: string;
-  desc: string;
+  description: string;
   cover_url: string;
   amazon_url: string;
   tag: string;
@@ -29,7 +29,7 @@ export type Book = {
 export type Portfolio = {
   id: string;
   title: string;
-  desc: string;
+  description: string;
   image_url: string;
   cat: string;
   tags: string[];
@@ -92,6 +92,31 @@ export const updatePortfolio = (id: string, data: Partial<Portfolio>) =>
 
 export const deletePortfolio = (id: string) =>
   supabase.from("portfolio").delete().eq("id", id);
+
+// ─── PODCASTS ─────────────────────────────────────────────────────────────────
+
+export type Podcast = {
+  id: string;
+  title: string;
+  category: string;
+  duration: string;
+  link: string;
+  published_at: string;
+  published: boolean;
+  created_at?: string;
+};
+
+export const getPodcasts = () =>
+  supabase.from("podcasts").select("*").order("published_at", { ascending: false });
+
+export const createPodcast = (data: Omit<Podcast, "id" | "created_at">) =>
+  supabase.from("podcasts").insert(data).select().single();
+
+export const updatePodcast = (id: string, data: Partial<Podcast>) =>
+  supabase.from("podcasts").update(data).eq("id", id).select().single();
+
+export const deletePodcast = (id: string) =>
+  supabase.from("podcasts").delete().eq("id", id);
 
 // ─── BLOGS ────────────────────────────────────────────────────────────────────
 

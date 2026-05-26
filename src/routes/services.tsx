@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Section, SectionHeading, GradientButton, Eyebrow } from "@/components/ui-bits";
+import { Section, GradientButton, Eyebrow } from "@/components/ui-bits";
 import { Search, Megaphone, Users, Sparkles, PenTool, Image, Check } from "lucide-react";
 
 export const Route = createFileRoute("/services")({
@@ -29,19 +29,19 @@ const groups = [
       {
         icon: Search,
         title: "SEO",
-        price: "from ₹40k/mo",
+
         bullets: ["On-page & technical audit", "Off-page authority building", "Content roadmap"],
       },
       {
         icon: Megaphone,
         title: "Performance Marketing",
-        price: "from ₹50k/mo",
+
         bullets: ["Meta & Google Ads", "Funnel & creative testing", "Weekly reporting"],
       },
       {
         icon: Users,
         title: "Social Media Growth",
-        price: "from ₹35k/mo",
+
         bullets: ["Content strategy", "Community building", "Influencer collabs"],
       },
     ],
@@ -52,13 +52,11 @@ const groups = [
       {
         icon: Sparkles,
         title: "Brand Strategy",
-        price: "from ₹80k",
         bullets: ["Positioning & voice", "Audience clarity", "Messaging architecture"],
       },
       {
         icon: PenTool,
         title: "Identity Design",
-        price: "from ₹90k",
         bullets: ["Logo system", "Typography & color", "Brand guidelines"],
       },
     ],
@@ -69,7 +67,6 @@ const groups = [
       {
         icon: Image,
         title: "Creatives & Ads",
-        price: "from ₹25k/mo",
         bullets: ["Static & motion ads", "Social creatives", "Campaign packs"],
       },
     ],
@@ -81,7 +78,7 @@ function ServicesPage() {
     <>
       <Section className="!pt-10">
         <Eyebrow>Services</Eyebrow>
-        <h1 className="mt-5 text-5xl sm:text-6xl font-bold leading-[1.05] max-w-3xl">
+        <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl">
           A full-stack toolkit for <span className="gradient-text">brands going somewhere</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
@@ -110,7 +107,6 @@ function ServicesPage() {
                   <s.icon className="h-5 w-5" />
                 </div>
                 <h3 className="mt-6 font-display text-xl font-semibold">{s.title}</h3>
-                <div className="mt-1 text-sm gradient-text font-semibold">{s.price}</div>
                 <ul className="mt-5 space-y-2 flex-1">
                   {s.bullets.map((b) => (
                     <li key={b} className="flex items-start gap-2 text-sm text-muted-foreground">

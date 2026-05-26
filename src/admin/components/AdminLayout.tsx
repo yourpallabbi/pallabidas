@@ -8,19 +8,19 @@ import {
   FileText,
   LogOut,
   Menu,
-  X,
   ChevronRight,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut, getSession } from "@/admin/lib/auth";
 import { useNavigate } from "@tanstack/react-router";
+import { Logo } from "@/components/Logo";
 
 const NAV = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/courses", label: "Courses", icon: GraduationCap },
   { to: "/admin/books", label: "Books", icon: BookOpen },
-  { to: "/admin/portfolio", label: "Portfolio", icon: Briefcase },
-  { to: "/admin/blogs", label: "Blogs", icon: FileText },
+  { to: "/admin/portfolio", label: "Blogs", icon: Briefcase },
+  { to: "/admin/blogs", label: "Podcast", icon: FileText },
 ];
 
 export function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -49,14 +49,9 @@ export function AdminLayout({ children }: { children: React.ReactNode }) {
   const SidebarContent = () => (
     <div className="flex h-full flex-col">
       {/* Logo */}
-      <div className="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-        <div className="grid h-9 w-9 place-items-center rounded-xl bg-gradient-to-br from-purple-500 to-blue-500 text-white font-bold text-sm">
-          PD
-        </div>
-        <div>
-          <div className="text-sm font-semibold text-white">Admin Panel</div>
-          <div className="text-[11px] text-white/50 truncate max-w-[140px]">{userEmail}</div>
-        </div>
+      <div className="flex flex-col px-6 py-5 border-b border-white/10 gap-1">
+        <Logo className="h-10 w-auto text-white" />
+        <div className="text-[11px] text-white/50 truncate">{userEmail}</div>
       </div>
 
       {/* Nav */}

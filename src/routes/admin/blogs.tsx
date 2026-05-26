@@ -1,46 +1,42 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminLayout } from "@/admin/components/AdminLayout";
 import { useEffect, useState } from "react";
-import { getBlogs, createBlog, updateBlog, deleteBlog, type Blog } from "@/admin/lib/db";
+import {
+  getPodcasts,
+  createPodcast,
+  updatePodcast,
+  deletePodcast,
+  type Podcast,
+} from "@/admin/lib/db";
 import { Plus, Pencil, Trash2, Eye, EyeOff } from "lucide-react";
-import { EmptyState, Modal, Field, TextareaField, FormActions } from "./courses";
+import { EmptyState, Modal, Field, FormActions } from "./courses";
 
 export const Route = createFileRoute("/admin/blogs")({
-  component: AdminBlogsPage,
+  component: AdminPodcastPage,
 });
 
-const EMPTY: Omit<Blog, "id" | "created_at"> = {
+const EMPTY: Omit<Podcast, "id" | "created_at"> = {
   title: "",
-  slug: "",
-  excerpt: "",
-  content: "",
-  cover_url: "",
   category: "",
+  duration: "",
+  link: "",
+  published_at: new Date().toISOString().slice(0, 10),
   published: false,
 };
 
-function slugify(text: string) {
-  return text
-    .toLowerCase()
-    .replace(/[^\w\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-")
-    .trim();
-}
-
-function AdminBlogsPage() {
-  const [blogs, setBlogs] = useState<Blog[]>([]);
+function AdminPodcastPage() {
+  const [podcasts, setPodcasts] = useState<Podcast[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editing, setEditing] = useState<Blog | null>(null);
+  const [editing, setEditing] = useState<Podcast | null>(null);
   const [form, setForm] = useState({ ...EMPTY });
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
   const load = async () => {
     setLoading(true);
-    const { data } = await getBlogs();
-    setBlogs(data ?? []);
+    const { data } = await getPodcasts();
+    setPodcasts(data ?? []);
     setLoading(false);
   };
 
@@ -53,20 +49,27 @@ function AdminBlogsPage() {
     setError("");
   };
 
-  const openEdit = (b: Blog) => {
-    setEditing(b);
-    setForm({ title: b.title, slug: b.slug, excerpt: b.excerpt, content: b.content, cover_url: b.cover_url, category: b.category, published: b.published });
+  const openEdit = (p: Podcast) => {
+    setEditing(p);
+    setForm({
+      title: p.title,
+      category: p.category,
+      duration: p.duration,
+      link: p.link,
+      published_at: p.published_at?.slice(0, 10) ?? "",
+      published: p.published,
+    });
     setShowForm(true);
     setError("");
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
     setError("");
     try {
-      if (editing) await updateBlog(editing.id, form);
-      else await createBlog(form);
+      if (editing) await updatePodcast(editing.id, form);
+      else await createPodcast(form);
       setShowForm(false);
       await load();
     } catch (err: unknown) {
@@ -77,13 +80,13 @@ function AdminBlogsPage() {
   };
 
   const handleDelete = async (id: string) => {
-    if (!confirm("Delete this blog post?")) return;
-    await deleteBlog(id);
+    if (!confirm("Delete this episode?")) return;
+    await deletePodcast(id);
     await load();
   };
 
-  const togglePublish = async (b: Blog) => {
-    await updateBlog(b.id, { published: !b.published });
+  const togglePublish = async (p: Podcast) => {
+    await updatePodcast(p.id, { published: !p.published });
     await load();
   };
 
@@ -92,50 +95,58 @@ function AdminBlogsPage() {
       <div className="max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-white">Blogs</h1>
-            <p className="text-sm text-white/50 mt-1">{blogs.length} post{blogs.length !== 1 ? "s" : ""}</p>
+            <h1 className="text-2xl font-bold text-white">Podcast</h1>
+            <p className="text-sm text-white/50 mt-1">
+              {podcasts.length} episode{podcasts.length !== 1 ? "s" : ""}
+            </p>
           </div>
           <button
             onClick={openCreate}
             className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-purple-500 to-blue-500 px-4 py-2.5 text-sm font-semibold text-white hover:opacity-90 transition-opacity"
           >
-            <Plus className="h-4 w-4" /> New Post
+            <Plus className="h-4 w-4" /> Add Episode
           </button>
         </div>
 
         {loading ? (
           <div className="text-center py-16 text-white/40">Loading...</div>
-        ) : blogs.length === 0 ? (
-          <EmptyState label="blog posts" onAdd={openCreate} />
+        ) : podcasts.length === 0 ? (
+          <EmptyState label="podcast episodes" onAdd={openCreate} />
         ) : (
           <div className="space-y-3">
-            {blogs.map((b) => (
-              <div key={b.id} className="bg-[oklch(0.17_0.025_280)] border border-white/10 rounded-2xl p-5 flex items-start gap-4">
-                {b.cover_url && (
-                  <img src={b.cover_url} alt={b.title} className="h-16 w-24 rounded-xl object-cover shrink-0" />
-                )}
+            {podcasts.map((p, i) => (
+              <div
+                key={p.id}
+                className="bg-[oklch(0.17_0.025_280)] border border-white/10 rounded-2xl p-5 flex items-center gap-4"
+              >
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-purple-500/30 to-blue-500/20 text-xs font-bold text-purple-300">
+                  {String(i + 1).padStart(2, "0")}
+                </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-sm font-semibold text-white">{b.title}</span>
-                    <span className={`rounded-full text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${b.published ? "bg-green-500/20 text-green-300" : "bg-white/10 text-white/40"}`}>
-                      {b.published ? "Published" : "Draft"}
+                    <span className="text-sm font-semibold text-white">{p.title}</span>
+                    <span className={`rounded-full text-[10px] font-bold px-2 py-0.5 uppercase tracking-wider ${p.published ? "bg-green-500/20 text-green-300" : "bg-white/10 text-white/40"}`}>
+                      {p.published ? "Published" : "Draft"}
                     </span>
                   </div>
-                  <div className="text-xs text-white/50 mt-1">{b.category} · /{b.slug}</div>
-                  <div className="text-xs text-white/40 mt-1 truncate">{b.excerpt}</div>
+                  <div className="text-xs text-white/50 mt-1">
+                    {p.category && <span>{p.category} · </span>}
+                    {p.duration && <span>{p.duration} · </span>}
+                    <span>{p.published_at?.slice(0, 10)}</span>
+                  </div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button
-                    onClick={() => togglePublish(b)}
-                    title={b.published ? "Unpublish" : "Publish"}
-                    className={`grid h-8 w-8 place-items-center rounded-lg bg-white/5 transition-colors ${b.published ? "text-green-400 hover:text-white" : "text-white/40 hover:text-green-400"}`}
+                    onClick={() => togglePublish(p)}
+                    title={p.published ? "Unpublish" : "Publish"}
+                    className={`grid h-8 w-8 place-items-center rounded-lg bg-white/5 transition-colors ${p.published ? "text-green-400 hover:text-white" : "text-white/40 hover:text-green-400"}`}
                   >
-                    {b.published ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
+                    {p.published ? <Eye className="h-3.5 w-3.5" /> : <EyeOff className="h-3.5 w-3.5" />}
                   </button>
-                  <button onClick={() => openEdit(b)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-white/60 hover:text-white transition-colors">
+                  <button onClick={() => openEdit(p)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-white/60 hover:text-white transition-colors">
                     <Pencil className="h-3.5 w-3.5" />
                   </button>
-                  <button onClick={() => handleDelete(b.id)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-red-400/60 hover:text-red-400 transition-colors">
+                  <button onClick={() => handleDelete(p.id)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-red-400/60 hover:text-red-400 transition-colors">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
@@ -145,34 +156,18 @@ function AdminBlogsPage() {
         )}
 
         {showForm && (
-          <Modal title={editing ? "Edit Post" : "New Post"} onClose={() => setShowForm(false)}>
+          <Modal
+            title={editing ? "Edit Episode" : "Add Episode"}
+            onClose={() => setShowForm(false)}
+          >
             <form onSubmit={handleSave} className="space-y-4">
-              <Field
-                label="Title"
-                value={form.title}
-                onChange={(v) => setForm((f) => ({ ...f, title: v, slug: editing ? f.slug : slugify(v) }))}
-              />
-              <Field
-                label="Slug (URL)"
-                value={form.slug}
-                onChange={(v) => setForm((f) => ({ ...f, slug: slugify(v) }))}
-              />
-              <div className="grid grid-cols-2 gap-4">
-                <Field label="Category" value={form.category} onChange={(v) => setForm((f) => ({ ...f, category: v }))} />
-                <Field label="Cover Image URL" value={form.cover_url} onChange={(v) => setForm((f) => ({ ...f, cover_url: v }))} />
+              <Field label="Title" value={form.title} onChange={(v) => setForm((f) => ({ ...f, title: v }))} />
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Field label="Category (e.g. Mindset)" value={form.category} onChange={(v) => setForm((f) => ({ ...f, category: v }))} />
+                <Field label="Duration (e.g. 32 min)" value={form.duration} onChange={(v) => setForm((f) => ({ ...f, duration: v }))} />
               </div>
-              <TextareaField label="Excerpt (short summary)" value={form.excerpt} onChange={(v) => setForm((f) => ({ ...f, excerpt: v }))} />
-              <div>
-                <label className="block text-xs font-medium uppercase tracking-widest text-white/50 mb-2">Content (markdown supported)</label>
-                <textarea
-                  required
-                  rows={8}
-                  value={form.content}
-                  onChange={(e) => setForm((f) => ({ ...f, content: e.target.value }))}
-                  className="w-full rounded-xl bg-white/5 border border-white/10 px-4 py-2.5 text-sm text-white placeholder-white/30 focus:outline-none focus:border-purple-500/60 transition-colors resize-none font-mono"
-                  placeholder="Write your blog post here..."
-                />
-              </div>
+              <Field label="Podcast / Video Link" value={form.link} onChange={(v) => setForm((f) => ({ ...f, link: v }))} />
+              <Field label="Date (YYYY-MM-DD)" value={form.published_at} onChange={(v) => setForm((f) => ({ ...f, published_at: v }))} />
               <label className="flex items-center gap-2 text-sm text-white/70 cursor-pointer">
                 <input
                   type="checkbox"

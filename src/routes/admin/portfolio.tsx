@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getPortfolio, createPortfolio, updatePortfolio, deletePortfolio, type Portfolio } from "@/admin/lib/db";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { EmptyState, Modal, Field, TextareaField, FormActions } from "./courses";
+import { ImageInput } from "@/admin/components/ImageInput";
 
 export const Route = createFileRoute("/admin/portfolio")({
   component: AdminPortfolioPage,
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/admin/portfolio")({
 
 const EMPTY: Omit<Portfolio, "id" | "created_at"> = {
   title: "",
-  desc: "",
+  description: "",
   image_url: "",
   cat: "",
   tags: [],
@@ -49,13 +50,13 @@ function AdminPortfolioPage() {
 
   const openEdit = (p: Portfolio) => {
     setEditing(p);
-    setForm({ title: p.title, desc: p.desc, image_url: p.image_url, cat: p.cat, tags: p.tags, link: p.link ?? "", accent: p.accent, sort_order: p.sort_order });
+    setForm({ title: p.title, description: p.description, image_url: p.image_url, cat: p.cat, tags: p.tags, link: p.link ?? "", accent: p.accent, sort_order: p.sort_order });
     setTagsInput(p.tags.join(", "));
     setShowForm(true);
     setError("");
   };
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSave = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSaving(true);
     setError("");
@@ -83,8 +84,8 @@ function AdminPortfolioPage() {
       <div className="max-w-4xl">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-2xl font-bold text-white">Portfolio</h1>
-            <p className="text-sm text-white/50 mt-1">{items.length} project{items.length !== 1 ? "s" : ""}</p>
+            <h1 className="text-2xl font-bold text-white">Blogs</h1>
+            <p className="text-sm text-white/50 mt-1">{items.length} post{items.length !== 1 ? "s" : ""}</p>
           </div>
           <button
             onClick={openCreate}
@@ -131,12 +132,12 @@ function AdminPortfolioPage() {
           <Modal title={editing ? "Edit Project" : "Add Project"} onClose={() => setShowForm(false)}>
             <form onSubmit={handleSave} className="space-y-4">
               <Field label="Title" value={form.title} onChange={(v) => setForm((f) => ({ ...f, title: v }))} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <Field label="Category (e.g. 360° Marketing)" value={form.cat} onChange={(v) => setForm((f) => ({ ...f, cat: v }))} />
                 <Field label="Sort order (0, 1, 2...)" value={String(form.sort_order)} onChange={(v) => setForm((f) => ({ ...f, sort_order: Number(v) }))} />
               </div>
-              <TextareaField label="Description" value={form.desc} onChange={(v) => setForm((f) => ({ ...f, desc: v }))} />
-              <Field label="Image URL" value={form.image_url} onChange={(v) => setForm((f) => ({ ...f, image_url: v }))} />
+              <TextareaField label="Description" value={form.description} onChange={(v) => setForm((f) => ({ ...f, description: v }))} />
+              <ImageInput label="Project Image" value={form.image_url} onChange={(v) => setForm((f) => ({ ...f, image_url: v }))} />
               <Field label="Project link (optional)" value={form.link ?? ""} onChange={(v) => setForm((f) => ({ ...f, link: v }))} />
               <div>
                 <label className="block text-xs font-medium uppercase tracking-widest text-white/50 mb-2">Tags (comma separated)</label>

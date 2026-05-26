@@ -8,7 +8,7 @@ const NAV = [
   { to: "/", label: "Home" },
   { to: "/about", label: "About" },
   { to: "/services", label: "Services" },
-  { to: "/portfolio", label: "Portfolio" },
+  { to: "/blog", label: "Blogs" },
   { to: "/podcast", label: "Podcast" },
   { to: "/courses", label: "Courses" },
   { to: "/contact", label: "Contact" },
@@ -172,7 +172,7 @@ export function Layout() {
             <h4 className="font-display font-semibold mb-4">Get in touch</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li><a href="mailto:yourpallabbi@gmail.com" className="hover:text-foreground transition-colors">yourpallabbi@gmail.com</a></li>
-              <li><a href="tel:+919804101114" className="hover:text-foreground transition-colors">+91 70037 73910</a></li>
+              <li><a href="tel:+917003773910" className="hover:text-foreground transition-colors">+91 70037 73910</a></li>
               <li>Based in India · Working globally</li>
             </ul>
           </div>

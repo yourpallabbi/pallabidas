@@ -1,5 +1,5 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { createRootRouteWithContext, Link, useRouter } from "@tanstack/react-router";
+import { createRootRouteWithContext, Link, Outlet, useRouter, useRouterState } from "@tanstack/react-router";
 import { Layout } from "@/components/Layout";
 
 function NotFoundComponent() {
@@ -61,9 +61,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const { location } = useRouterState();
+  const isAdmin = location.pathname.startsWith("/admin");
+
   return (
     <QueryClientProvider client={queryClient}>
-      <Layout />
+      {isAdmin ? <Outlet /> : <Layout />}
     </QueryClientProvider>
   );
 }

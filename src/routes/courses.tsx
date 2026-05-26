@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { Section, SectionHeading, GradientButton, Eyebrow } from "@/components/ui-bits";
+import { Section, GradientButton, Eyebrow } from "@/components/ui-bits";
 import { GraduationCap, Clock, Users, Check } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getCourses, type Course } from "@/admin/lib/db";
 
 export const Route = createFileRoute("/courses")({
   head: () => ({
@@ -22,58 +24,22 @@ export const Route = createFileRoute("/courses")({
   component: CoursesPage,
 });
 
-const courses = [
-  {
-    title: "AI + Digital Marketing",
-    tag: "Cohort",
-    duration: "6 weeks",
-    seats: "40 seats",
-    price: "₹9,999",
-    desc: "The modern marketer's playbook — strategy, copy, design and ops, supercharged with AI.",
-    bullets: [
-      "Live weekly sessions",
-      "AI-prompt library",
-      "Real client case studies",
-      "Lifetime community access",
-    ],
-    featured: true,
-  },
-  {
-    title: "Beginner SEO Mastery",
-    tag: "Self-paced",
-    duration: "4 weeks",
-    seats: "Unlimited",
-    price: "₹4,999",
-    desc: "Everything you need to rank, from technical foundations to content systems.",
-    bullets: [
-      "12 video modules",
-      "SEO audit template",
-      "Backlink playbook",
-      "Q&A office hours",
-    ],
-  },
-  {
-    title: "Branding Basics",
-    tag: "Live",
-    duration: "3 weeks",
-    seats: "25 seats",
-    price: "₹6,499",
-    desc: "Build a brand that looks expensive and feels human — in three intensive weeks.",
-    bullets: [
-      "Brand strategy framework",
-      "Identity workshop",
-      "Live feedback sessions",
-      "Brand guidelines template",
-    ],
-  },
-];
-
 function CoursesPage() {
+  const [courses, setCourses] = useState<Course[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getCourses().then(({ data }) => {
+      setCourses(data ?? []);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <>
       <Section className="!pt-10">
         <Eyebrow>Courses & bridge programs</Eyebrow>
-        <h1 className="mt-5 text-5xl sm:text-6xl font-bold leading-[1.05] max-w-3xl">
+        <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05] max-w-3xl">
           Learn the way I <span className="gradient-text">actually work</span>.
         </h1>
         <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
@@ -83,51 +49,55 @@ function CoursesPage() {
       </Section>
 
       <Section className="!pt-0">
-        <div className="grid lg:grid-cols-3 gap-5">
-          {courses.map((c) => (
-            <div
-              key={c.title}
-              className={`glass-card p-7 flex flex-col relative ${
-                c.featured ? "lg:scale-[1.03] gradient-border" : ""
-              }`}
-            >
-              {c.featured && (
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[image:var(--gradient-primary)] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
-                  Most popular
+        {loading ? (
+          <div className="text-center py-20 text-muted-foreground">Loading courses...</div>
+        ) : (
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {courses.map((c) => (
+              <div
+                key={c.id}
+                className={`glass-card p-7 flex flex-col relative ${
+                  c.featured ? "lg:scale-[1.03] gradient-border" : ""
+                }`}
+              >
+                {c.featured && (
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-[image:var(--gradient-primary)] px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-primary-foreground">
+                    Most popular
+                  </div>
+                )}
+                <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
+                  <GraduationCap className="h-5 w-5" />
                 </div>
-              )}
-              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-[image:var(--gradient-primary)] text-primary-foreground">
-                <GraduationCap className="h-5 w-5" />
-              </div>
-              <div className="mt-5 text-xs uppercase tracking-widest text-primary">{c.tag}</div>
-              <h3 className="mt-1 font-display text-2xl font-semibold">{c.title}</h3>
-              <p className="mt-3 text-sm text-muted-foreground">{c.desc}</p>
+                <div className="mt-5 text-xs uppercase tracking-widest text-primary">{c.tag}</div>
+                <h3 className="mt-1 font-display text-2xl font-semibold">{c.title}</h3>
+                <p className="mt-3 text-sm text-muted-foreground">{c.description}</p>
 
-              <div className="mt-5 flex gap-4 text-xs text-muted-foreground">
-                <span className="flex items-center gap-1.5">
-                  <Clock className="h-3.5 w-3.5" /> {c.duration}
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <Users className="h-3.5 w-3.5" /> {c.seats}
-                </span>
-              </div>
+                <div className="mt-5 flex gap-4 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1.5">
+                    <Clock className="h-3.5 w-3.5" /> {c.duration}
+                  </span>
+                  <span className="flex items-center gap-1.5">
+                    <Users className="h-3.5 w-3.5" /> {c.seats}
+                  </span>
+                </div>
 
-              <ul className="mt-6 space-y-2 flex-1">
-                {c.bullets.map((b) => (
-                  <li key={b} className="flex items-start gap-2 text-sm">
-                    <Check className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                    {b}
-                  </li>
-                ))}
-              </ul>
+                <ul className="mt-6 space-y-2 flex-1">
+                  {c.bullets.map((b) => (
+                    <li key={b} className="flex items-start gap-2 text-sm">
+                      <Check className="h-4 w-4 mt-0.5 text-primary shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
 
-              <div className="mt-7 flex items-center justify-between">
-                <div className="text-3xl font-display font-bold gradient-text">{c.price}</div>
-                <GradientButton to="/contact">Enroll</GradientButton>
+                <div className="mt-7 flex items-center justify-between">
+                  <div className="text-3xl font-display font-bold gradient-text">{c.price}</div>
+                  <GradientButton to="/contact">Enroll</GradientButton>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </Section>
 
       <Section>

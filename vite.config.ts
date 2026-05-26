@@ -11,4 +11,16 @@ export default defineConfig({
     tailwindcss(),
     tsConfigPaths(),
   ],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          "react-vendor": ["react", "react-dom"],
+          "router-vendor": ["@tanstack/react-router", "@tanstack/react-query"],
+          "supabase-vendor": ["@supabase/supabase-js"],
+          "ui-vendor": ["lucide-react", "class-variance-authority", "clsx", "tailwind-merge"],
+        },
+      },
+    },
+  },
 });

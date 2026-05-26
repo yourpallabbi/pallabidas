@@ -1,11 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { AdminLayout } from "@/admin/components/AdminLayout";
 import { useEffect, useState } from "react";
-import { getCourses } from "@/admin/lib/db";
-import { getBooks } from "@/admin/lib/db";
-import { getPortfolio } from "@/admin/lib/db";
-import { getBlogs } from "@/admin/lib/db";
-import { GraduationCap, BookOpen, Briefcase, FileText } from "lucide-react";
+import { getCourses, getBooks, getPortfolio, getPodcasts, getBlogs } from "@/admin/lib/db";
+import { GraduationCap, BookOpen, Briefcase, Mic, FileText } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/admin/")({
@@ -13,16 +10,17 @@ export const Route = createFileRoute("/admin/")({
 });
 
 function AdminDashboardPage() {
-  const [counts, setCounts] = useState({ courses: 0, books: 0, portfolio: 0, blogs: 0 });
+  const [counts, setCounts] = useState({ courses: 0, books: 0, blogs: 0, podcasts: 0, portfolio: 0 });
 
   useEffect(() => {
-    Promise.all([getCourses(), getBooks(), getPortfolio(), getBlogs()]).then(
-      ([c, b, p, bl]) => {
+    Promise.all([getCourses(), getBooks(), getPortfolio(), getPodcasts(), getBlogs()]).then(
+      ([c, b, p, pod, bl]) => {
         setCounts({
           courses: c.data?.length ?? 0,
           books: b.data?.length ?? 0,
-          portfolio: p.data?.length ?? 0,
           blogs: bl.data?.length ?? 0,
+          podcasts: pod.data?.length ?? 0,
+          portfolio: p.data?.length ?? 0,
         });
       }
     );
@@ -31,8 +29,8 @@ function AdminDashboardPage() {
   const cards = [
     { label: "Courses", count: counts.courses, icon: GraduationCap, to: "/admin/courses", color: "from-purple-500 to-indigo-500" },
     { label: "Books", count: counts.books, icon: BookOpen, to: "/admin/books", color: "from-blue-500 to-cyan-500" },
-    { label: "Portfolio", count: counts.portfolio, icon: Briefcase, to: "/admin/portfolio", color: "from-fuchsia-500 to-pink-500" },
-    { label: "Blogs", count: counts.blogs, icon: FileText, to: "/admin/blogs", color: "from-orange-500 to-rose-500" },
+    { label: "Blogs", count: counts.portfolio, icon: FileText, to: "/admin/portfolio", color: "from-fuchsia-500 to-pink-500" },
+    { label: "Podcast", count: counts.podcasts, icon: Mic, to: "/admin/blogs", color: "from-orange-500 to-rose-500" },
   ];
 
   return (

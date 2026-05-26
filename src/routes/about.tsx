@@ -53,7 +53,7 @@ function AboutPage() {
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <Eyebrow>About me</Eyebrow>
-            <h1 className="text-5xl sm:text-6xl font-bold leading-[1.05]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
               Hi, I'm <span className="gradient-text">Pallabi</span>. <br />
               I make brands feel like something.
             </h1>
@@ -72,7 +72,7 @@ function AboutPage() {
                 alt="Pallabi Das"
                 fetchPriority="high"
                 decoding="async"
-                className="w-full rounded-[calc(var(--radius-xl)-2px)] object-cover object-center"
+                className="w-full max-h-[55vh] md:max-h-none rounded-[calc(var(--radius-xl)-2px)] object-cover object-top"
               />
             </div>
           </div>

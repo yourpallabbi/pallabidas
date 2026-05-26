@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getBooks, createBook, updateBook, deleteBook, type Book } from "@/admin/lib/db";
 import { Plus, Pencil, Trash2 } from "lucide-react";
 import { EmptyState, Modal, Field, TextareaField, FormActions } from "./courses";
+import { ImageInput } from "@/admin/components/ImageInput";
 
 export const Route = createFileRoute("/admin/books")({
   component: AdminBooksPage,
@@ -11,7 +12,7 @@ export const Route = createFileRoute("/admin/books")({
 
 const EMPTY: Omit<Book, "id" | "created_at"> = {
   title: "",
-  desc: "",
+  description: "",
   cover_url: "",
   amazon_url: "",
   tag: "Design",
@@ -45,7 +46,7 @@ function AdminBooksPage() {
 
   const openEdit = (b: Book) => {
     setEditing(b);
-    setForm({ title: b.title, desc: b.desc, cover_url: b.cover_url, amazon_url: b.amazon_url, tag: b.tag, accent: b.accent });
+    setForm({ title: b.title, description: b.description, cover_url: b.cover_url, amazon_url: b.amazon_url, tag: b.tag, accent: b.accent });
     setShowForm(true);
     setError("");
   };
@@ -102,7 +103,7 @@ function AdminBooksPage() {
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-semibold text-white">{b.title}</div>
                   <div className="text-xs text-white/50 mt-1">{b.tag}</div>
-                  <div className="text-xs text-white/40 mt-1 truncate">{b.desc}</div>
+                  <div className="text-xs text-white/40 mt-1 truncate">{b.description}</div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button onClick={() => openEdit(b)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-white/60 hover:text-white transition-colors">
@@ -121,10 +122,10 @@ function AdminBooksPage() {
           <Modal title={editing ? "Edit Book" : "Add Book"} onClose={() => setShowForm(false)}>
             <form onSubmit={handleSave} className="space-y-4">
               <Field label="Title" value={form.title} onChange={(v) => setForm((f) => ({ ...f, title: v }))} />
-              <TextareaField label="Description" value={form.desc} onChange={(v) => setForm((f) => ({ ...f, desc: v }))} />
-              <Field label="Cover Image URL" value={form.cover_url} onChange={(v) => setForm((f) => ({ ...f, cover_url: v }))} />
+              <TextareaField label="Description" value={form.description} onChange={(v) => setForm((f) => ({ ...f, description: v }))} />
+              <ImageInput label="Cover Image" value={form.cover_url} onChange={(v) => setForm((f) => ({ ...f, cover_url: v }))} />
               <Field label="Amazon URL" value={form.amazon_url} onChange={(v) => setForm((f) => ({ ...f, amazon_url: v }))} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <Field label="Tag (e.g. Design)" value={form.tag} onChange={(v) => setForm((f) => ({ ...f, tag: v }))} />
                 <Field label="Accent color (oklch)" value={form.accent} onChange={(v) => setForm((f) => ({ ...f, accent: v }))} />
               </div>

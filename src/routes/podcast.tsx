@@ -1,6 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Section, SectionHeading, GradientButton, Eyebrow } from "@/components/ui-bits";
-import { Mic, Play, Youtube, Apple } from "lucide-react";
+import { Mic, Play } from "lucide-react";
+import { useEffect, useState } from "react";
+import { getPodcasts, type Podcast } from "@/admin/lib/db";
 import podcastCover from "@/assets/podcast-cover.jpg";
 
 export const Route = createFileRoute("/podcast")({
@@ -23,37 +25,34 @@ export const Route = createFileRoute("/podcast")({
   component: PodcastPage,
 });
 
-const eps = [
-  { n: "01", cat: "Mindset", title: "Mindset shifts for ambitious creators", dur: "32 min" },
-  { n: "02", cat: "Career", title: "Building a brand from scratch in 2025", dur: "41 min" },
-  { n: "03", cat: "Real Talk", title: "Burnout, boundaries & coming back", dur: "28 min" },
-  { n: "04", cat: "Mindset", title: "How I price my creative work", dur: "36 min" },
-  { n: "05", cat: "Career", title: "Building in India, dreaming global", dur: "44 min" },
-  { n: "06", cat: "Real Talk", title: "What no one tells you about freelancing", dur: "31 min" },
-];
-
 function PodcastPage() {
+  const [episodes, setEpisodes] = useState<Podcast[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getPodcasts().then(({ data }) => {
+      setEpisodes((data ?? []).filter((p) => p.published));
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <>
       <Section className="!pt-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <Eyebrow>Pallabi Talks</Eyebrow>
-            <h1 className="mt-5 text-5xl sm:text-6xl font-bold leading-[1.05]">
+            <h1 className="mt-5 text-4xl sm:text-5xl lg:text-6xl font-bold leading-[1.05]">
               Real conversations for <span className="gradient-text">ambitious creators</span>.
             </h1>
             <p className="mt-6 text-lg text-muted-foreground max-w-xl">
               A podcast on mindset, marketing, and what it really takes to build
               something of your own. New episodes every other Tuesday.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
-              <GradientButton href="https://youtube.com">Subscribe on YouTube</GradientButton>
-              <a
-                href="https://podcasts.apple.com"
-                className="inline-flex items-center gap-2 rounded-full glass px-6 py-3 text-sm font-semibold"
-              >
-                <Apple className="h-4 w-4" /> Apple Podcasts
-              </a>
+            <div className="mt-8">
+              <GradientButton href="https://youtube.com/@pallabi-talks?si=amUbtoAhydiBsqA8">
+                Subscribe on YouTube
+              </GradientButton>
             </div>
           </div>
           <div className="relative">
@@ -62,7 +61,7 @@ function PodcastPage() {
               <img
                 src={podcastCover}
                 alt="Pallabi Talks podcast"
-                loading="lazy"
+                loading="eager"
                 className="w-full rounded-[calc(var(--radius-xl)-2px)]"
               />
             </div>
@@ -76,21 +75,46 @@ function PodcastPage() {
           title={<>All <span className="gradient-text">episodes</span>.</>}
         />
         <div className="grid gap-4 mt-12">
-          {eps.map((e) => (
-            <article key={e.n} className="glass-card p-5 sm:p-6 flex items-center gap-5">
-              <button className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground glow-ring hover:scale-105 transition-transform">
-                <Play className="h-5 w-5 fill-primary-foreground" />
-              </button>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-3 text-xs">
-                  <span className="text-primary uppercase tracking-widest">Ep {e.n}</span>
-                  <span className="rounded-full glass px-2.5 py-0.5">{e.cat}</span>
+          {loading ? (
+            <div className="text-center py-16 text-muted-foreground">Loading episodes...</div>
+          ) : episodes.length === 0 ? (
+            <div className="text-center py-16 text-muted-foreground">No episodes yet. Check back soon!</div>
+          ) : (
+            episodes.map((ep, i) => (
+              <article key={ep.id} className="glass-card p-5 sm:p-6 flex items-center gap-5">
+                <div className="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground">
+                  <Mic className="h-5 w-5" />
                 </div>
-                <h3 className="mt-1.5 font-display font-semibold text-lg truncate">{e.title}</h3>
-              </div>
-              <div className="text-xs text-muted-foreground shrink-0 hidden sm:block">{e.dur}</div>
-            </article>
-          ))}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 text-xs">
+                    <span className="text-primary uppercase tracking-widest">Ep {String(i + 1).padStart(2, "0")}</span>
+                    {ep.category && (
+                      <span className="rounded-full glass px-2.5 py-0.5">{ep.category}</span>
+                    )}
+                  </div>
+                  <h3 className="mt-1.5 font-display font-semibold text-lg truncate">{ep.title}</h3>
+                </div>
+                <div className="shrink-0 flex items-center gap-4">
+                  {ep.duration && (
+                    <div className="hidden sm:flex flex-col items-center gap-0.5">
+                      <span className="text-sm font-semibold text-foreground">{ep.duration}</span>
+                      <span className="text-[10px] uppercase tracking-widest text-muted-foreground">duration</span>
+                    </div>
+                  )}
+                  {ep.link && (
+                    <a
+                      href={ep.link}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="grid h-10 w-10 place-items-center rounded-full bg-[image:var(--gradient-primary)] text-primary-foreground glow-ring hover:scale-105 transition-transform"
+                    >
+                      <Play className="h-4 w-4 fill-primary-foreground" />
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))
+          )}
         </div>
       </Section>
 

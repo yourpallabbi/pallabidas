@@ -14,7 +14,7 @@ const EMPTY: Omit<Course, "id" | "created_at"> = {
   duration: "",
   seats: "",
   price: "",
-  desc: "",
+  description: "",
   bullets: ["", "", "", ""],
   featured: false,
 };
@@ -52,7 +52,7 @@ function AdminCoursesPage() {
       duration: c.duration,
       seats: c.seats,
       price: c.price,
-      desc: c.desc,
+      description: c.description,
       bullets: [...c.bullets, "", "", "", ""].slice(0, 4),
       featured: c.featured,
     });
@@ -118,7 +118,7 @@ function AdminCoursesPage() {
                     )}
                   </div>
                   <div className="text-xs text-white/50 mt-1">{c.tag} · {c.duration} · {c.seats} · {c.price}</div>
-                  <div className="text-xs text-white/40 mt-1 truncate">{c.desc}</div>
+                  <div className="text-xs text-white/40 mt-1 truncate">{c.description}</div>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
                   <button onClick={() => openEdit(c)} className="grid h-8 w-8 place-items-center rounded-lg bg-white/5 text-white/60 hover:text-white transition-colors">
@@ -138,7 +138,7 @@ function AdminCoursesPage() {
           <Modal title={editing ? "Edit Course" : "Add Course"} onClose={() => setShowForm(false)}>
             <form onSubmit={handleSave} className="space-y-4">
               <Field label="Title" value={form.title} onChange={(v) => setForm((f) => ({ ...f, title: v }))} />
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <SelectField
                   label="Tag"
                   value={form.tag}
@@ -147,11 +147,11 @@ function AdminCoursesPage() {
                 />
                 <Field label="Price (e.g. ₹9,999)" value={form.price} onChange={(v) => setForm((f) => ({ ...f, price: v }))} />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid sm:grid-cols-2 gap-4">
                 <Field label="Duration (e.g. 6 weeks)" value={form.duration} onChange={(v) => setForm((f) => ({ ...f, duration: v }))} />
                 <Field label="Seats (e.g. 40 seats)" value={form.seats} onChange={(v) => setForm((f) => ({ ...f, seats: v }))} />
               </div>
-              <TextareaField label="Description" value={form.desc} onChange={(v) => setForm((f) => ({ ...f, desc: v }))} />
+              <TextareaField label="Description" value={form.description} onChange={(v) => setForm((f) => ({ ...f, description: v }))} />
               <div>
                 <label className="block text-xs font-medium uppercase tracking-widest text-white/50 mb-2">Bullet points (up to 4)</label>
                 {form.bullets.map((b, i) => (
