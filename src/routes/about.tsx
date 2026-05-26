@@ -5,14 +5,11 @@ import { Palette, Globe, Brain, Heart } from "lucide-react";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Pallabi Das" },
-      {
-        name: "description",
-        content:
-          "Marketer, painter, podcast host. The story behind Pallabi Das and the vision driving the work.",
-      },
-      { property: "og:title", content: "About Pallabi Das" },
-      { property: "og:description", content: "Marketer. Painter. Podcast host." },
+      { title: "About Pallabi Das — Marketer, Creator & Podcast Host" },
+      { name: "description", content: "The story behind Pallabi Das (Pallabbi) — digital marketer, brand designer and podcast host based in India, working globally." },
+      { name: "keywords", content: "Pallabi Das, Pallabbi Das, about Pallabi, Pallabi Talks, digital marketer India" },
+      { property: "og:title", content: "About Pallabi Das — Marketer, Creator & Podcast Host" },
+      { property: "og:description", content: "The story behind Pallabi Das — digital marketer, painter, podcast host." },
     ],
     links: [{ rel: "canonical", href: "/about" }],
   }),

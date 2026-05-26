@@ -8,17 +8,11 @@ import podcastCover from "@/assets/podcast-cover.jpg";
 export const Route = createFileRoute("/podcast")({
   head: () => ({
     meta: [
-      { title: "Pallabi Talks — The Podcast" },
-      {
-        name: "description",
-        content:
-          "Conversations on mindset, marketing, career and the messy middle of building something of your own.",
-      },
-      { property: "og:title", content: "Pallabi Talks — Podcast" },
-      {
-        property: "og:description",
-        content: "Mindset · Career · Real Talk for ambitious creators.",
-      },
+      { title: "Pallabi Talks — Podcast by Pallabi Das" },
+      { name: "description", content: "Pallabi Talks — podcast by Pallabi Das (Pallabbi). Conversations on mindset, marketing, career and building something of your own." },
+      { name: "keywords", content: "Pallabi Talks, Pallabi Das podcast, Pallabbi podcast, marketing podcast India" },
+      { property: "og:title", content: "Pallabi Talks — Podcast by Pallabi Das" },
+      { property: "og:description", content: "Mindset · Career · Real Talk by Pallabi Das for ambitious creators." },
     ],
     links: [{ rel: "canonical", href: "/podcast" }],
   }),

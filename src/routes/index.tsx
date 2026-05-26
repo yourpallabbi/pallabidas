@@ -26,19 +26,52 @@ import { Section, SectionHeading, GradientButton, Eyebrow } from "@/components/u
 import { useEffect, useState } from "react";
 import { getCourses, getBooks, type Course, type Book } from "@/admin/lib/db";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Pallabi Das",
+  alternateName: ["Pallabbi Das", "Pallabi", "Pallabbi"],
+  url: "https://pallabidas.vercel.app",
+  image: "https://pallabidas.vercel.app/hero_section.png",
+  jobTitle: "Digital Marketer & Brand Strategist",
+  description: "Digital marketer, creator and podcast host helping ambitious brands grow with strategy, design and storytelling.",
+  sameAs: [
+    "https://www.instagram.com/pallabi_talks",
+    "https://www.linkedin.com/in/pallabi-das786/",
+    "https://youtube.com/@pallabi-talks",
+    "https://www.facebook.com/share/1DGav6dh6L/",
+  ],
+  knowsAbout: ["Digital Marketing", "SEO", "Branding", "Content Strategy", "Performance Marketing", "Graphic Design"],
+  worksFor: { "@type": "Organization", name: "Pallabi Das Digital" },
+};
+
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Pallabi Das — I build brands that grow, sell & scale" },
+      { title: "Pallabi Das — Digital Marketer, Creator & Podcast Host" },
       {
         name: "description",
         content:
-          "Digital marketer, creator and podcast host helping ambitious brands grow with strategy, design and storytelling.",
+          "Pallabi Das (also known as Pallabbi) — digital marketer, brand strategist, creator and podcast host. Helping ambitious brands grow with strategy, design and storytelling.",
       },
-      { property: "og:title", content: "Pallabi Das — Brands that grow, sell & scale" },
-      { property: "og:description", content: "Marketing, branding, design, podcast and courses." },
+      { name: "keywords", content: "Pallabi Das, Pallabbi Das, Pallabi, digital marketer India, brand strategist, Pallabi Talks podcast, SEO expert India" },
+      { name: "author", content: "Pallabi Das" },
+      { property: "og:title", content: "Pallabi Das — Digital Marketer & Brand Strategist" },
+      { property: "og:description", content: "Pallabi Das — digital marketer, creator, podcast host. Strategy, branding, SEO and design." },
+      { property: "og:image", content: "https://pallabidas.vercel.app/hero_section.png" },
+      { property: "og:url", content: "https://pallabidas.vercel.app" },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+      { name: "twitter:title", content: "Pallabi Das — Digital Marketer & Brand Strategist" },
+      { name: "twitter:description", content: "Digital marketer, creator and podcast host. Helping brands grow." },
+      { name: "twitter:image", content: "https://pallabidas.vercel.app/hero_section.png" },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [
+      { rel: "canonical", href: "https://pallabidas.vercel.app/" },
+    ],
+    scripts: [
+      { type: "application/ld+json", children: JSON.stringify(jsonLd) },
+    ],
   }),
   component: HomePage,
 });
